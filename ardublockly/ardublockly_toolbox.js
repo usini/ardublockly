@@ -274,4 +274,4 @@ Ardublockly.TOOLBOX_XML = `<xml>
 <block type="fastled_apply">
 </block>
 </category>
-</xml> ;`
+</xml>`

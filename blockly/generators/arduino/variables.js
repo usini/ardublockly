@@ -37,7 +37,7 @@ Blockly.Arduino['variables_set'] = function(block) {
       Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
   var varName = Blockly.Arduino.variableDB_.getName(
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  return varName + ' = ' + argument0 + ';\n';
+      return varName + ' = ' + argument0 + ';\n';
 };
 
 /**
@@ -53,4 +53,36 @@ Blockly.Arduino['variables_set_type'] = function(block) {
       Blockly.Types[block.getFieldValue('VARIABLE_SETTYPE_TYPE')]);
   var code = '(' + varType + ')(' + argument0 + ')';
   return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino['variables_init'] = function(block) {
+    var argument0 = Blockly.Arduino.valueToCode(block, 'VALUE',
+    Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
+    var varName = Blockly.Arduino.variableDB_.getName(
+    block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    var varType = Blockly.Arduino.getArduinoType_(
+        Blockly.Types[block.getFieldValue('VARIABLE_SETTYPE_TYPE')]);
+    //Blockly.Arduino.definitions_[argument0] = varType + " " + varName + " = " + argument0 + ";";
+    //console.log(varName);
+    //console.log(Blockly.Arduino.variables_);
+    Blockly.Arduino.variables_[varName] = varType + " " + varName + " = " + argument0 + ";";
+    //console.log(Blockly.Arduino.variables_);
+    
+    return "";
+};
+
+Blockly.Arduino['const_init'] = function(block) {
+    var argument0 = Blockly.Arduino.valueToCode(block, 'VALUE',
+    Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
+    var varName = Blockly.Arduino.variableDB_.getName(
+    block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    var varType = Blockly.Arduino.getArduinoType_(
+        Blockly.Types[block.getFieldValue('VARIABLE_SETTYPE_TYPE')]);
+    //Blockly.Arduino.definitions_[argument0] = varType + " " + varName + " = " + argument0 + ";";
+    //console.log(varName);
+    //console.log(Blockly.Arduino.variables_);
+    Blockly.Arduino.variables_[varName] = "const " + varType + " " + varName + " = " + argument0 + ";";
+    //console.log(Blockly.Arduino.variables_);
+    
+    return "";
 };

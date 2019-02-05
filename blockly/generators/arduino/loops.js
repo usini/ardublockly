@@ -104,12 +104,28 @@ Blockly.Arduino['controls_for'] = function(block) {
   var branch = Blockly.Arduino.statementToCode(block, 'DO');
   branch = Blockly.Arduino.addLoopTrap(branch, block.id);
   var code;
-  if (Blockly.isNumber(argument0) && Blockly.isNumber(argument1) &&
-      Blockly.isNumber(increment)) {
+  var argument0_value;
+  var argument1_value;
+
+  if(!Blockly.isNumber(argument0)){
+    argument0_value = Blockly.Arduino.variables_[argument1].split("=")[1].slice(0,-1).trim();
+  } else {
+    argument0_value = argument0;
+  }
+
+  if(!Blockly.isNumber(argument1)){
+    argument1_value = Blockly.Arduino.variables_[argument1].split("=")[1].slice(0,-1).trim();
+  } else {
+    argument1_value = argument1;
+  }
+
+//  if (Blockly.isNumber(argument0) && Blockly.isNumber(argument1) &&
+//      Blockly.isNumber(increment)) {
+//      }
     // All arguments are simple numbers.
-    var up = parseFloat(argument0) <= parseFloat(argument1);
+    var up = parseFloat(argument0_value) <= parseFloat(argument1_value);
     code = 'for (' + variable0 + ' = ' + argument0 + '; ' +
-        variable0 + (up ? ' <= ' : ' >= ') + argument1 + '; ' +
+        variable0 + (up ? ' < ' : ' > ') + argument1 + '; ' +
         variable0;
     var step = Math.abs(parseFloat(increment));
     if (step == 1) {
@@ -118,7 +134,9 @@ Blockly.Arduino['controls_for'] = function(block) {
       code += (up ? ' += ' : ' -= ') + step;
     }
     code += ') {\n' + branch + '}\n';
-  } else {
+  
+  /*
+  else {
     code = '';
     // Cache non-trivial values to variables to prevent repeated look-ups.
     var startVar = argument0;
@@ -153,6 +171,7 @@ Blockly.Arduino['controls_for'] = function(block) {
         '     ' + variable0 + ' += ' + incVar + ') {\n' +
         branch + '}\n';
   }
+  */
   return code;
 };
 
